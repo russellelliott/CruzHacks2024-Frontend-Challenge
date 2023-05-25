@@ -6,8 +6,17 @@ function EventModal({ event, onClose, onSubmit }) {
   const [email, setEmail] = useState('');
   const [notify, setNotify] = useState(false);
 
+  const validateEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!validateEmail(email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
     onSubmit({ firstName, lastName, email, notify });
   };
 
