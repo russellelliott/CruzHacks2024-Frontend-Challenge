@@ -6,6 +6,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [currentDayIndex, setCurrentDayIndex] = useState(0); // Index of the currently displayed day
 
   const fetchData = () => {
     setLoading(true);
@@ -31,6 +32,16 @@ function App() {
     setModalVisible(false);
   };
 
+  const handlePreviousDay = () => {
+    setCurrentDayIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+  };
+
+  const handleNextDay = () => {
+    setCurrentDayIndex((prevIndex) =>
+      Math.min(prevIndex + 1, data.schedule.length - 1)
+    );
+  };
+
   const handleSubmit = (formData) => {
     // Handle the form submission here
     console.log(formData);
@@ -42,34 +53,40 @@ function App() {
       {loading ? (
         <p>Loading data...</p>
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th colSpan="4">Schedule</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.schedule.map((day) => (
-              <React.Fragment key={day.date}>
-                <tr>
-                  <th colSpan="5">{day.date}</th>
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th colSpan="5">Schedule</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <button onClick={handlePreviousDay}>&lt; Previous</button>
+                </td>
+                <td colSpan="3">
+                  <h2>{data.schedule[currentDayIndex].date}</h2>
+                </td>
+                <td>
+                  <button onClick={handleNextDay}>Next &gt;</button>
+                </td>
+              </tr>
+              {data.schedule[currentDayIndex].events.map((event, index) => (
+                <tr key={index}>
+                  <td>{event.name}</td>
+                  <td>{event.time}</td>
+                  <td>{event.location}</td>
+                  <td>
+                    {event.clickable && (
+                      <button onClick={() => openModal(event)}>View Details</button>
+                    )}
+                  </td>
                 </tr>
-                {day.events.map((event, index) => (
-                  <tr key={index}>
-                    <td>{event.name}</td>
-                    <td>{event.time}</td>
-                    <td>{event.location}</td>
-                    <td>
-                      {event.clickable && (
-                        <button onClick={() => openModal(event)}>View Details</button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </React.Fragment>
-            ))}
-          </tbody>
-        </table>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
       {modalVisible && (
         <EventModal event={selectedEvent} onClose={closeModal} onSubmit={handleSubmit} />
