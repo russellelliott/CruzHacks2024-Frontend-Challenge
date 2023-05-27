@@ -92,13 +92,13 @@ function App() {
             <tbody>
               {data?.schedule[currentDayIndex].events.map((event, index) => (
                 <tr key={index}>
-                  <td>{event.time}
+                  <td>{event.time}</td>
+                  <td>{event.name}
                   <br></br>
                     {event.clickable && (
                       <button onClick={() => openModal(event)}>View Details</button>
                     )}
                   </td>
-                  <td>{event.name}</td>
                 </tr>
               ))}
             </tbody>
