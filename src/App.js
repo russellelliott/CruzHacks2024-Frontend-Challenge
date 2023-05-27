@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import EventModal from './EventModal';
+import './App.css';
 
 function App() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [currentDayIndex, setCurrentDayIndex] = useState(0); // Index of the currently displayed day
+  const [currentDayIndex, setCurrentDayIndex] = useState(0); //Index for current displayed day
 
   const fetchData = () => {
     setLoading(true);
@@ -43,35 +44,59 @@ function App() {
   };
 
   const handleSubmit = (formData) => {
-    // Handle the form submission here
+    //Where form handling is
     console.log(formData);
     // ...
   };
 
   return (
-    <div>
+    <div className="app">
+      <div className="header">
+        <h2></h2>
+        <h2>{data.schedule[currentDayIndex].date}</h2>
+        <div className="navigation-buttons">
+          <button onClick={handlePreviousDay}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <button onClick={handleNextDay}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+      </div>
       {loading ? (
         <p>Loading data...</p>
       ) : (
-        <div>
-          <table>
+        <div className="table-container">
+          <table className="schedule-table">
             <thead>
               <tr>
-                <th colSpan="5">Schedule</th>
+                <th>Name</th>
+                <th>Time</th>
+                <th>Location</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <button onClick={handlePreviousDay}>&lt; Previous</button>
-                </td>
-                <td colSpan="3">
-                  <h2>{data.schedule[currentDayIndex].date}</h2>
-                </td>
-                <td>
-                  <button onClick={handleNextDay}>Next &gt;</button>
-                </td>
-              </tr>
               {data.schedule[currentDayIndex].events.map((event, index) => (
                 <tr key={index}>
                   <td>{event.name}</td>
