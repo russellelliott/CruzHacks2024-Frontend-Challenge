@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import './App.css';
 
-function EventModal({ event, onClose, onSubmit }) {
+function EventModal({ event, onClose, onSubmit, position }) {
+  const { top, left } = position;
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -21,7 +23,12 @@ function EventModal({ event, onClose, onSubmit }) {
   };
 
   return (
-    <div className="modal">
+    <div className="event-modal"
+      style={{
+        top: `${top}px`,
+        left: `${left}px`,
+      }}
+    >
       <div className="modal-content">
         <h2>Event Details</h2>
         <p>{event.name}</p>

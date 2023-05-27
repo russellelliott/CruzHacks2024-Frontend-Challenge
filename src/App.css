@@ -43,3 +43,11 @@
   border: 1px solid lightblue;
   text-align: center;
 }
+
+.event-modal {
+  position: absolute;
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  z-index: 1;
+}

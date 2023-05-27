@@ -4,11 +4,12 @@ import './App.css';
 import logo from './logo.svg';
 
 function App() {
-  const [data, setData] = useState(null); //the data rom the API
+  const [data, setData] = useState(null); //the data from the API
   const [loading, setLoading] = useState(true); //Whether or not the page is loading
   const [modalVisible, setModalVisible] = useState(false); //Whether or not the event modal is visible
   const [selectedEvent, setSelectedEvent] = useState(null); //Event currently selected
-  const [currentDayIndex, setCurrentDayIndex] = useState(0); //Index for current displayed day
+  const [currentDayIndex, setCurrentDayIndex] = useState(0); //Index for the current displayed day
+  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 }); //Position of the event modal
 
   const fetchData = () => {
     setLoading(true);
@@ -24,9 +25,11 @@ function App() {
     fetchData();
   }, []);
 
-  const openModal = (event) => {
+  const openModal = (event, position) => {
     setSelectedEvent(event);
+    setModalPosition(position);
     setModalVisible(true);
+    setModalPosition(position);
   };
 
   const closeModal = () => {
@@ -45,7 +48,7 @@ function App() {
   };
 
   const handleSubmit = (formData) => {
-    //Where form handling is
+    // Where form handling is
     console.log(formData);
     // ...
   };
@@ -53,7 +56,12 @@ function App() {
   return (
     <div className="app">
       <div className="header">
-        <img src={logo}  onClick={fetchData}alt="Reload" className="refresh-icon" />
+        <img
+          src={logo}
+          onClick={fetchData}
+          alt="Reload"
+          className="refresh-icon"
+        />
         <h2>{data?.schedule[currentDayIndex].date}</h2>
         <div className="navigation-buttons">
           <button onClick={handlePreviousDay}>
@@ -93,10 +101,20 @@ function App() {
               {data?.schedule[currentDayIndex].events.map((event, index) => (
                 <tr key={index}>
                   <td>{event.time}</td>
-                  <td>{event.name}
-                  <br></br>
+                  <td>
+                    {event.name}
+                    <br />
                     {event.clickable && (
-                      <button onClick={() => openModal(event)}>View Details</button>
+                      <button
+                        onClick={(e) =>
+                          openModal(event, {
+                            top: e.target.offsetTop,
+                            left: e.target.offsetLeft,
+                          })
+                        }
+                      >
+                        View Details
+                      </button>
                     )}
                   </td>
                 </tr>
@@ -106,7 +124,12 @@ function App() {
         </div>
       )}
       {modalVisible && (
-        <EventModal event={selectedEvent} onClose={closeModal} onSubmit={handleSubmit} />
+        <EventModal
+          event={selectedEvent}
+          onClose={closeModal}
+          onSubmit={handleSubmit}
+          position={modalPosition}
+        />
       )}
     </div>
   );
