@@ -9,6 +9,7 @@
   justify-content: space-between;
   margin-bottom: 20px;
   color: white;
+  text-align: center;
 }
 
 .navigation-buttons button {
@@ -27,6 +28,8 @@
   border-radius: 10px;
   background-color: white;
   padding: 20px;
+  width: 70%;
+  margin: 0 auto;
 }
 
 .schedule-table {

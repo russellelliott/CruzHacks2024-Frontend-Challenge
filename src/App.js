@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import EventModal from './EventModal';
 import './App.css';
+import logo from './logo.svg';
 
 function App() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [data, setData] = useState(null); //the data rom the API
+  const [loading, setLoading] = useState(true); //Whether or not the page is loading
+  const [modalVisible, setModalVisible] = useState(false); //Whether or not the event modal is visible
+  const [selectedEvent, setSelectedEvent] = useState(null); //Event currently selected
   const [currentDayIndex, setCurrentDayIndex] = useState(0); //Index for current displayed day
 
   const fetchData = () => {
@@ -52,7 +53,7 @@ function App() {
   return (
     <div className="app">
       <div className="header">
-        <h2></h2>
+        <img src={logo}  onClick={fetchData}alt="Reload" className="refresh-icon" />
         <h2>{data?.schedule[currentDayIndex].date}</h2>
         <div className="navigation-buttons">
           <button onClick={handlePreviousDay}>
@@ -107,7 +108,6 @@ function App() {
       {modalVisible && (
         <EventModal event={selectedEvent} onClose={closeModal} onSubmit={handleSubmit} />
       )}
-      <button onClick={fetchData}>Refresh</button>
     </div>
   );
 }
