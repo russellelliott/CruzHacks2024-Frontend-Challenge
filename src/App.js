@@ -53,7 +53,7 @@ function App() {
     <div className="app">
       <div className="header">
         <h2></h2>
-        <h2>{data.schedule[currentDayIndex].date}</h2>
+        <h2>{data?.schedule[currentDayIndex].date}</h2>
         <div className="navigation-buttons">
           <button onClick={handlePreviousDay}>
             <svg
@@ -88,22 +88,16 @@ function App() {
       ) : (
         <div className="table-container">
           <table className="schedule-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Time</th>
-              </tr>
-            </thead>
             <tbody>
-              {data.schedule[currentDayIndex].events.map((event, index) => (
+              {data?.schedule[currentDayIndex].events.map((event, index) => (
                 <tr key={index}>
-                  <td>{event.name}</td>
                   <td>{event.time}
                   <br></br>
                     {event.clickable && (
                       <button onClick={() => openModal(event)}>View Details</button>
                     )}
                   </td>
+                  <td>{event.name}</td>
                 </tr>
               ))}
             </tbody>
