@@ -3,6 +3,10 @@
   padding: 20px;
 }
 
+body {
+  background-color: black;
+}
+
 .header {
   display: flex;
   align-items: center;
